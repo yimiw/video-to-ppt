@@ -322,6 +322,10 @@ git push origin feature/amazing-feature
 
 本项目采用 [MIT](./LICENSE) 许可证 - 查看 [LICENSE](./LICENSE) 文件了解详情。
 
+## 🙏 致谢
+
+本项目的灵感来源于 [video2ppt.com](https://video2ppt.com/)，感谢他们提供的优秀创意和解决方案。
+
 ## 📊 项目状态
 
 ![GitHub Stars](https://img.shields.io/github/stars/liwenka1/video-to-ppt?style=social)
