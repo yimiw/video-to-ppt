@@ -1,5 +1,19 @@
 import type { NextConfig } from "next";
 
+// Patch for broken localStorage in Node.js environment (e.g. experimental features)
+if (typeof localStorage !== "undefined" && typeof localStorage.getItem !== "function") {
+	try {
+		Object.defineProperty(global, "localStorage", {
+			value: undefined,
+			writable: true,
+			configurable: true,
+		});
+		console.log("Patched broken global.localStorage to undefined");
+	} catch (e) {
+		console.warn("Failed to patch global.localStorage:", e);
+	}
+}
+
 const nextConfig: NextConfig = {
 	webpack: (config, { isServer }) => {
 		// Fix for @ffmpeg/ffmpeg dynamic imports
