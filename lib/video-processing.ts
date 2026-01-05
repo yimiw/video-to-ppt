@@ -259,10 +259,13 @@ export async function extractFramesFromVideo(
 
 		currentTime += captureInterval;
 
-		// Stop if no new screenshots for too long
+		// REMOVED: Premature break condition that caused short extractions
+		// We must scan the entire video even if there are long static segments
+		/* 
 		if (noNewScreenshotCount > 20) {
 			break;
 		}
+		*/
 	}
 
 	onComplete(screenshots);
@@ -637,8 +640,10 @@ export async function preprocessVideo(video: HTMLVideoElement, canvas: HTMLCanva
 	const sortedDifferences = [...differences].sort((a, b) => a - b);
 	const medianDiff = sortedDifferences[Math.floor(sortedDifferences.length / 2)];
 
-	// Use median as base threshold, with reasonable bounds
-	const finalThreshold = Math.max(10, Math.min(medianDiff, 60));
+	// FIX: Distant frames differ more than consecutive ones. 
+	// Reduce median by half to estimate a reasonable threshold for transitions.
+	// Cap between 5 and 40 (allow sensitive detection for bullet points)
+	const finalThreshold = Math.max(5, Math.min(Math.floor(medianDiff * 0.5), 40));
 
 	return finalThreshold;
 }
